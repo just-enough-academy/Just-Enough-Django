@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.conf.urls import url, include
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.views.generic import View, ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views import generic
 from .models import Task
 
 def hello_world(request):
@@ -20,24 +20,24 @@ def task_detail(request, task_id):
         'task': Task.objects.get(pk=task_id) 
     })
 
-class TaskView(View):
+class TaskView(generic.View):
     success_url='..'
     model=Task
     fields=('text', 'complete')
 
-class TaskAddView(TaskView, CreateView):
-    pass
+class TaskAddView(TaskView, generic.CreateView):
+    success_url='.'
 
-class TaskUpdateView(TaskView, UpdateView):
+class TaskUpdateView(TaskView, generic.UpdateView):
     pass
     
-class TaskDetailView(TaskView, DetailView):
+class TaskDetailView(TaskView, generic.DetailView):
     pass
 
-class TaskListView(TaskView, ListView):
+class TaskListView(TaskView, generic.ListView):
     pass
     
-class TaskDeleteView(TaskView, DeleteView):
+class TaskDeleteView(TaskView, generic.DeleteView):
     pass
 
 urlpatterns = [
