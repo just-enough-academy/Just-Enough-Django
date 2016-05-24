@@ -1,1 +1,3 @@
-[{{task.complete | yesno:"X, "}}] {{task.text}}
+<pre>
+[{{task.complete | yesno:"X, "}}] {{task.text}} (<a href="{% url 'task_edit' task.pk %}">edit</a>)
+</pre>
