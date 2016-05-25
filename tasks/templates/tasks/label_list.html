@@ -1,0 +1,3 @@
+{% for label in label_list %}
+    <a href="{% url 'task_list' %}?label={{label.pk}}">{{label}}</a> (<a href="{% url 'task_label_edit' label.pk %}">edit</a>)
+{% endfor %}

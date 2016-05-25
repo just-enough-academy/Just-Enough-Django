@@ -5,7 +5,7 @@ from django.conf.urls import url, include
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import generic
-from .models import Task
+from .models import Task, Color, Label
 
 def hello_world(request):
     return HttpResponse('Hello, World!')
@@ -51,14 +51,17 @@ class TaskListView(TaskView, generic.ListView):
 
     def get_context_data(self, **kwargs):
         ## FIXME: This don't work, but it's close...!
-        return super().get_context_data(**kwargs) + {
+        context = super().get_context_data(**kwargs) 
+        
+        context.update({
             'COMPLETED': self.COMPLETED,
             'INCOMPLETE': self.INCOMPLETE,
             'QS': self.COMPLETED_QS
-        }
+        })
+        
+        return context
         
     def get_queryset(self):
-        
         tasks = super().get_queryset()
         
         if self.request.GET.get('complete') is self.INCOMPLETE: # ballot-x
@@ -76,6 +79,20 @@ class TaskDeleteView(TaskView, generic.DeleteView):
     pass
 
 urlpatterns = [
+    url(r'^labels/', include([
+        url(r'^$', generic.ListView.as_view(model=Label), name='task_label_list'),
+        url(r'^new', generic.CreateView.as_view(
+            model=Label, fields=('text', 'color'),
+            template_name='edit_form.html', success_url='.'
+        ), name='task_label_add'),
+        url(r'^(?P<pk>[0-9]+)/', include([
+            url(r'^$', generic.UpdateView.as_view(
+                model=Label, fields=('text', 'color'), 
+                template_name='edit_form.html', success_url='..'
+            ), name='task_label_edit'),
+            url(r'^kill', generic.DeleteView.as_view(model=Label), name='task_label_delete')
+        ]))
+    ])),
     url(r'^new', TaskAddView.as_view(), name='task_add'), # ADD(GET form)
     url(r'^(?P<pk>[0-9]+)/', include([
         url(r'^edit', TaskUpdateView.as_view(), name='task_edit'), # EDIT(GET form)
