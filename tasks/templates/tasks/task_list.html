@@ -1,3 +1,6 @@
 {% for task in task_list %}
   {% include 'tasks/task_detail.html' %}
 {% endfor %}
+
+<a href="{% url 'task_list' %}?{{QS}}={{COMPLETE}}">Completed Tasks</a>
+<a href="{% url 'task_list' %}?complete=n">Incomplete Tasks</a>

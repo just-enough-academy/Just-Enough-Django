@@ -49,6 +49,13 @@ class TaskListView(TaskView, generic.ListView):
             return (True if completed is self.COMPLETED 
                 else False)
 
+    def get_context_data(self, **kwargs):
+        ## FIXME: This don't work, but it's close...!
+        return super().get_context_data(**kwargs) + {
+            'COMPLETED': self.COMPLETED,
+            'INCOMPLETE': self.INCOMPLETE,
+            'QS': self.COMPLETED_QS
+        }
         
     def get_queryset(self):
         
