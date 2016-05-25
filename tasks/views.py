@@ -35,7 +35,35 @@ class TaskDetailView(TaskView, generic.DetailView):
     pass
 
 class TaskListView(TaskView, generic.ListView):
-    pass
+    COMPLETED='y'
+    INCOMPLETE='n'
+    COMPLETED_QS='complete'
+
+    def get_completed_qs(self):
+        return self.request.GET.get(self.COMPLETED_QS)
+
+    def is_complete(self):
+        completed = self.get_completed_qs()
+
+        if completed in (self.COMPLETED, self.INCOMPLETE):
+            return (True if completed is self.COMPLETED 
+                else False)
+
+        
+    def get_queryset(self):
+        
+        tasks = super().get_queryset()
+        
+        if self.request.GET.get('complete') is self.INCOMPLETE: # ballot-x
+            return tasks.filter(complete=False) 
+            # show "incomplete" tasks
+
+        if self.request.GET.get('complete') is self.COMPLETED: # ballot-check
+            return tasks.filter(complete=True)
+            # show "completed" tasks
+
+        return tasks
+        # show everything
     
 class TaskDeleteView(TaskView, generic.DeleteView):
     pass
