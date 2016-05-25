@@ -82,6 +82,12 @@ DATABASES = {
     }
 }
 
+import dj_database_url
+
+DATABASES['default'].update(dj_database_url.config(
+    conn_max_age=500 # TODO: Tweak as you find need...
+))
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
