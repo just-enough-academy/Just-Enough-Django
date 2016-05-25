@@ -41,3 +41,23 @@ class Task(models.Model):
 
     created_on = models.DateTimeField(auto_now_add=True)
 
+from django.contrib.auth.models import User
+
+class Profile(models.Model):
+    user=models.OneToOneField(User)
+
+class Color(models.Model):
+    hex_value=models.CharField(max_length=6)
+    
+    def __str__(self):
+        return self.hex_value
+    
+class Label(models.Model):
+    text=models.TextField(null=False, blank=False)
+    
+    color=models.ForeignKey(Color, null=True)
+    
+    def __str__(self):
+        return "{label.text} ({label.color})".format(label=self)
+    
+    
