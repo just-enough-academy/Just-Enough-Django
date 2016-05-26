@@ -42,7 +42,7 @@ class Task(models.Model):
 
     created_on = models.DateTimeField(auto_now_add=True)
     
-    label=models.ForeignKey('Label', null=True)
+    labels=models.ManyToManyField('Label', null=True)
 
 class Profile(models.Model):
     user=models.OneToOneField(User)
