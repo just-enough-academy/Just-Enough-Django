@@ -41,6 +41,8 @@ class Task(models.Model):
     complete = models.BooleanField(default=False, null=False)
 
     created_on = models.DateTimeField(auto_now_add=True)
+    
+    label=models.ForeignKey('Label', null=True)
 
 class Profile(models.Model):
     user=models.OneToOneField(User)

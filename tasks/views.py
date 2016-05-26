@@ -23,7 +23,7 @@ def task_detail(request, task_id):
 class TaskView(generic.View):
     success_url='..'
     model=Task
-    fields=('text', 'complete')
+    fields=('complete', 'text', 'labels')
 
 class TaskAddView(TaskView, generic.CreateView):
     success_url='.'
