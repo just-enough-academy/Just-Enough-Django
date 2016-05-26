@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 class Task(models.Model):
@@ -40,8 +41,6 @@ class Task(models.Model):
     complete = models.BooleanField(default=False, null=False)
 
     created_on = models.DateTimeField(auto_now_add=True)
-
-from django.contrib.auth.models import User
 
 class Profile(models.Model):
     user=models.OneToOneField(User)
